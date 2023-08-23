@@ -1,4 +1,6 @@
 #include <iostream>
+#include <unistd.h>
+
 class Arista;
 
 class Nodo
@@ -169,6 +171,7 @@ public:
 
     void mostrarAristas(void){
         Nodo* aux = header;
+        std::cout<<"ORIGEN\t\tDESTINO"<<std::endl;
         while(aux){
             Arista* auxArista = aux->adyacenciaH;
             while(auxArista){
@@ -181,56 +184,7 @@ public:
 };
  
 int main(){
-    /*Grafo* a = new Grafo;
-    Nodo* b = new Nodo();
-    b->nombre = "A";
-    Nodo* c = new Nodo();
-    c->nombre = "B";
-    Nodo* d = new Nodo();
-    d->nombre = "C";
-
-    a->insertarNodo(b);
-    a->insertarNodo(c);
-    a->insertarNodo(d);
-
-    Arista* aris = new Arista;
-    aris->origen = b;
-    aris->destino = d;
-
-    Arista* aris3 = new Arista;
-    aris3->origen = b;
-    aris3->destino = c;
-
-    Arista* aris5 = new Arista;
-    aris5->origen = b;
-    aris5->destino = b;
-
-    Arista* aris4 = new Arista;
-    aris4->origen = b;
-    aris4->destino = b;
-
-    Arista* aris2 = new Arista;
-    aris2->origen = c;
-    aris2->destino = b;
-
-    Arista* aris6 = new Arista;
-    aris6->origen = c;
-    aris6->destino = d;
-
-    Arista* aris7 = new Arista;
-    aris7->origen = d;
-    aris7->destino = d; 
-
-    a->insertarArista(aris4);
-    a->insertarArista(aris);
-    a->insertarArista(aris3);
-    a->insertarArista(aris2);
-    a->insertarArista(aris5);
-    a->insertarArista(aris6);
-    a->insertarArista(aris7);
-    
-
-    a->mostrarAristas();*/
+    Grafo* a = new Grafo;
     int opc = 0;
 
     while(opc != 7){
@@ -245,6 +199,74 @@ int main(){
         std::cout<<" 7. SALIR "<<std::endl;
         std::cout<<"\n INGRESE OPCION: ";
         std::cin>>opc;
+
+        switch(opc)
+        {
+        case 1: {
+            system("cls");
+            std::string nombre;
+            std::cout<<"INGRESA NOMBRE DEL NODO: ";
+            std::cin>>nombre;
+            Nodo* nodo = new Nodo;
+            nodo->nombre = nombre;
+
+            a->insertarNodo(nodo);
+            break;
+        }
+
+        case 2: {
+            system("cls");
+            std::string origen, destino;
+            std::cout<<"INGRESA ORIGEN DE LA ARISTA: ";
+            std::cin>>origen;
+            std::cout<<"INGRESA DESTINO DE LA ARISTA: ";
+            std::cin>>destino;
+            Arista* arista = new Arista;
+            arista->origen = a->buscarNodo(origen);
+            arista->destino = a->buscarNodo(destino);
+
+            a->insertarArista(arista); 
+            break;
+        }
+
+        case 3: {
+            system("cls");
+            std::string nombre;
+            std::cout<<"INGRESA NOMBRE DEL NODO A ELIMINAR: ";
+            std::cin>>nombre;
+
+            a->eliminarNodo(nombre); 
+            break;
+        }
+
+        case 4: {
+            system("cls");
+            std::string origen, destino;
+            std::cout<<"INGRESA ORIGEN DE LA ARISTA A ELIMINAR: ";
+            std::cin>>origen;
+            std::cout<<"INGRESA DESTINO DE LA ARISTA A ELIMINAR: ";
+            std::cin>>destino;
+
+            a->eliminarArista(origen, destino); 
+            break;
+        }
+
+        case 5: {
+            system("cls");
+            a->mostrarGrafo();
+            sleep(5); 
+            break;
+        }
+
+        case 6: {
+            system("cls");
+            a->mostrarAristas(); 
+            sleep(5); 
+            break;
+        }
+
+        default: std::cout<<"OPCION NO VALIDA"; break;
+        }
     }
 
 

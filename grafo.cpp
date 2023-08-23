@@ -74,11 +74,17 @@ public:
 
     void eliminarNodo(std::string nombre){
         Nodo* aux = header;
-        while(aux->siguiente != nullptr){
+        Nodo* auxAnterior = aux;
+        while(aux != nullptr){
             Arista* auxArista = aux->adyacenciaH;
-            while(auxArista->siguiente != nullptr){
+            Arista* auxAristaAnterior = auxArista;
+            while(auxArista != nullptr){
+                
+                auxAristaAnterior = auxArista;
                 auxArista = auxArista->siguiente;
             }
+            
+            auxAnterior = aux;
             aux = aux->siguiente;
         }
     }
@@ -105,15 +111,20 @@ public:
                 aux = aux->siguiente;
             }
             aux->siguiente = arista;
-            std::cout<<"SEGUNDO EN LA LISTA"<<std::endl;
         }     
     }
 
     void mostrarGrafo(void){
         Nodo* aux = header;
             while(aux){
-                std::cout<<aux->nombre<<std::endl;
+                Arista* auxArista = aux->adyacenciaH;
+                std::cout<<aux->nombre + "\t|";
+                while(auxArista){
+                    std::cout<<auxArista->destino->nombre + " ";
+                    auxArista = auxArista->siguiente;
+                }
                 aux = aux->siguiente;
+                std::cout<<std::endl;
             }
     }
 };
@@ -136,19 +147,16 @@ int main(){
     aris->destino = c;
 
     Arista* aris2 = new Arista;
-    aris2->origen = b;
-    aris2->destino = d;
+    aris2->origen = c;
+    aris2->destino = b;
 
     a->insertarArista(aris);
     a->insertarArista(aris2);
+    a->mostrarGrafo();
+    a->eliminarNodo("A");
 
     a->mostrarGrafo();
 
-    if(a->buscarNodo("RE")){
-    std::cout<<a->buscarNodo("RE")->nombre<<std::endl;
-    }else{
-        std::cout<<"NO EXISTE"<<std::endl;
-    }
 
     return 0;
 } 

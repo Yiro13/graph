@@ -1,3 +1,10 @@
+/*
+Bañuelos Leo Yahir Alejandro
+218576376
+IA 1
+MODULO 1, CLASE 2, GRAFO 23-08-23
+*/
+
 #include <iostream>
 #include <unistd.h>
 
@@ -181,13 +188,127 @@ public:
             aux = aux->siguiente;
         }
     }
+
+    int tamanio(void){
+        int cont = 0;
+        Nodo* aux = header;
+        while(aux){
+            cont++;
+            aux = aux->siguiente;
+        }
+        return cont;
+    }
+
+    bool conectado(std::string origen, std::string destino){
+        Nodo* encontrado = buscarNodo(origen);
+        if(!encontrado){
+            std::cout<<"NO EXISTE EL ORIGEN"<<std::endl;
+            return false;
+        }else{
+            Arista* auxArista = encontrado->adyacenciaH;
+            while (auxArista){
+                if(auxArista->destino->nombre == destino){
+                    return true;
+                }
+                auxArista = auxArista->siguiente;
+            }
+            return false;
+        }
+    }
+
+    void mostrarMatrizAdyacencia(void){
+        Nodo* aux = header;
+        Nodo* auxImpr = header;
+        Nodo* auxImpr2 = header;
+        int auxCont = 0;
+        int matriz[tamanio()][tamanio()];
+
+        for(int i = 0; i < tamanio(); i++){
+            for(int j = 0; j < tamanio(); j++){
+                matriz[i][j] = 0;
+            }
+        }
+
+        std::cout<<"\nMATRIZ DE ADYACENCIA\n"<<std::endl;
+
+        std::cout<<"  ";
+
+        while(auxImpr){
+            std::cout<<auxImpr->nombre<<" ";
+
+            auxImpr = auxImpr->siguiente;
+        }
+
+        std::cout<<std::endl;
+
+        while(aux){
+            Nodo* aux2 = header;
+            int aux2Cont = 0;
+            std::cout<<aux->nombre<<"|";
+            while(aux2){
+                if(conectado(aux->nombre, aux2->nombre)){
+                    matriz[auxCont][aux2Cont] = 1;
+                }else{
+                    matriz[auxCont][aux2Cont] = 0;
+                }
+                std::cout<<matriz[auxCont][aux2Cont]<<" ";
+                aux2 = aux2->siguiente;
+                aux2Cont++;
+            }
+            std::cout<<std::endl;
+            aux = aux->siguiente;
+            auxCont++;
+        }
+    }
 };
  
 int main(){
     Grafo* a = new Grafo;
+
+    /*Nodo* nodoa = new Nodo;
+    nodoa->nombre = "A";
+
+    Nodo* nodob = new Nodo;
+    nodob->nombre = "B";
+
+    Nodo* nodoc = new Nodo;
+    nodoc->nombre = "C";
+
+    Nodo* nodod = new Nodo;
+    nodod->nombre = "D";
+
+    a->insertarNodo(nodoa);
+    a->insertarNodo(nodob);
+    a->insertarNodo(nodoc);
+    a->insertarNodo(nodod);
+
+    Arista* arista0 = new Arista;
+    arista0->origen = a->buscarNodo("A");
+    arista0->destino = a->buscarNodo("B");
+
+    Arista* arista1 = new Arista;
+    arista1->origen = a->buscarNodo("A");
+    arista1->destino = a->buscarNodo("A");
+
+    Arista* arista2 = new Arista;
+    arista2->origen = a->buscarNodo("B");
+    arista2->destino = a->buscarNodo("A");
+
+    Arista* arista3 = new Arista;
+    arista3->origen = a->buscarNodo("C");
+    arista3->destino = a->buscarNodo("B");
+
+    a->insertarArista(arista0);
+    a->insertarArista(arista1);
+    a->insertarArista(arista2);
+    a->insertarArista(arista3);
+
+    a->mostrarGrafo();
+
+    a->mostrarMatrizAdyacencia();*/
     int opc = 0;
 
-    while(opc != 7){
+    while(opc != 8){
         system("cls");
         std::cout<<"\n\t GRAFOS DIRIGIDO \n\n";
         std::cout<<" 1. INSERTAR UN NODO "<<std::endl;
@@ -196,7 +317,8 @@ int main(){
         std::cout<<" 4. ELIMINAR UNA ARISTA "<<std::endl;
         std::cout<<" 5. MOSTRAR GRAFO "<<std::endl;
         std::cout<<" 6. MOSTRAR ARISTAS DE UN NODO "<<std::endl;
-        std::cout<<" 7. SALIR "<<std::endl;
+        std::cout<<" 7. MOSTRAR MATRIZ DE ADYACENCIA "<<std::endl;
+        std::cout<<" 8. SALIR "<<std::endl;
         std::cout<<"\n INGRESE OPCION: ";
         std::cin>>opc;
 
@@ -252,16 +374,20 @@ int main(){
         }
 
         case 5: {
-            system("cls");
             a->mostrarGrafo();
             sleep(5); 
             break;
         }
 
         case 6: {
-            system("cls");
             a->mostrarAristas(); 
             sleep(5); 
+            break;
+        }
+
+        case 7: {
+            a->mostrarMatrizAdyacencia(); 
+            sleep(5);
             break;
         }
 
